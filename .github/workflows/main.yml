@@ -33,7 +33,7 @@ jobs:
           conda install cdo
           conda list
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Fetch Hirlam FMI grib data and convert to netCDF
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          python get_hirlam_FMI.py
+          cdo -f nc -t ecmwf copy numerical-hirlam74-forecast-Temperature.grb2 numerical-hirlam74-forecast-Temperature.nc
