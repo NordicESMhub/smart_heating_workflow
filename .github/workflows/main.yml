@@ -28,9 +28,9 @@ jobs:
           channel-priority: flexible
           show-channel-urls: true
           use-only-tar-bz2: true
-      - name: Install cdo
+      - name: Install packages
         run: |
-          conda install cdo
+          conda install cdo s3fs
           conda list
       # Runs a set of commands using the runners shell
       - name: Fetch Hirlam FMI grib data and convert to netCDF
