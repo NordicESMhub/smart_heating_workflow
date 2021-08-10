@@ -5,7 +5,7 @@
 
 """
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import s3fs
 
 def get_lastfile(fs, output_prefix):
@@ -17,7 +17,7 @@ def get_lastfile(fs, output_prefix):
               output_prefix + '-*.grb2'
     remote_files = fs.glob(s3path)
     if len(remote_files) <= 0:
-        previous_date = current_date - datetime.timedelta(days=1)
+        previous_date = current_date - timedelta(days=1)
         s3path = 's3://fmi-opendata-rcrhirlam-surface-grib/' + previous_date.strftime("%Y") + '/' + \
                   previous_date.strftime("%m") + '/' + previous_date.strftime("%d") + '/*/' + \
                   output_prefix + '-*.grb2'
