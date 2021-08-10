@@ -38,4 +38,4 @@ jobs:
       - name: Fetch Hirlam FMI grib data and convert to netCDF
         run: |
           python get_hirlam_FMI.py
-          cdo -f nc -t ecmwf copy numerical-hirlam74-forecast-Temperature.grb2 numerical-hirlam74-forecast-Temperature.nc
+          cdo -f nc -t ecmwf copy numerical-hirlam74-forecast-Temperature.grb2 numerical-hirlam74-forecast-Temperature.netcdf
