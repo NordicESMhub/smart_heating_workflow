@@ -28,7 +28,7 @@ jobs:
         with:
           activate-environment: cdo
           python-version: 3.9
-          channels: conda-forge
+          channels: conda-forge,bioconda
           allow-softlinks: true
           channel-priority: flexible
           show-channel-urls: true
