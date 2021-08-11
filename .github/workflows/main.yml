@@ -28,14 +28,14 @@ jobs:
         with:
           activate-environment: cdo
           python-version: 3.9
-          channels: conda-forge,bioconda
+          channels: conda-forge
           allow-softlinks: true
           channel-priority: flexible
           show-channel-urls: true
           use-only-tar-bz2: true
       - name: Install packages
         run: |
-          conda install cdo s3fs planemo
+          conda install cdo s3fs pip
           conda list
       # Runs a set of commands using the runners shell
       - name: Fetch Hirlam FMI grib data, select area and convert to netCDF
@@ -44,4 +44,7 @@ jobs:
           cdo -f nc -t ecmwf copy -sellonlatbox,10,11,59,60 numerical-hirlam74-forecast-Temperature.grb2 numerical-hirlam74-forecast-Temperature.netcdf
       - name: Start Galaxy workflow with planemo
         run: |
+          python3 -m venv planemo
+	  . planemo/bin/activate
+	  pip install planemo
           planemo run af528de055395eae smart_heating.yml --galaxy_url https://usegalaxy.eu/ --galaxy_user_key ${{ env.GALAXY_API_KEY }} --history_name "smart heating test" --tags "smart heating test" --no_wait
