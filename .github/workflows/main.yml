@@ -8,6 +8,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  GALAXY_API_KEY: ${{ secrets.GALAXY_API_KEY }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -32,10 +35,13 @@ jobs:
           use-only-tar-bz2: true
       - name: Install packages
         run: |
-          conda install cdo s3fs
+          conda install cdo s3fs planemo
           conda list
       # Runs a set of commands using the runners shell
       - name: Fetch Hirlam FMI grib data, select area and convert to netCDF
         run: |
           python get_hirlam_FMI.py
           cdo -f nc -t ecmwf copy -sellonlatbox,10,11,59,60 numerical-hirlam74-forecast-Temperature.grb2 numerical-hirlam74-forecast-Temperature.netcdf
+      - name: Start Galaxy workflow with planemo
+        run: |
+          planemo run af528de055395eae smart_heating.yml --galaxy_url https://usegalaxy.eu/ --galaxy_user_key ${{ env.GALAXY_API_KEY }} --history_name "smart heating test" --tags "smart heating test" --no_wait
