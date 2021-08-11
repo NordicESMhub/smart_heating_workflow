@@ -35,7 +35,7 @@ jobs:
           conda install cdo s3fs
           conda list
       # Runs a set of commands using the runners shell
-      - name: Fetch Hirlam FMI grib data and convert to netCDF
+      - name: Fetch Hirlam FMI grib data, select area and convert to netCDF
         run: |
           python get_hirlam_FMI.py
-          cdo -f nc -t ecmwf copy numerical-hirlam74-forecast-Temperature.grb2 numerical-hirlam74-forecast-Temperature.netcdf
+          cdo -f nc -t ecmwf copy -sellonlatbox,10,11,59,60 numerical-hirlam74-forecast-Temperature.grb2 numerical-hirlam74-forecast-Temperature.netcdf
