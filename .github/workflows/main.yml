@@ -44,5 +44,5 @@ jobs:
           cdo -f nc -t ecmwf copy -sellonlatbox,10,11,59,60 numerical-hirlam74-forecast-Temperature.grb2 numerical-hirlam74-forecast-Temperature.netcdf
       - name: Start Galaxy workflow with planemo
         run: |
-	  pip install planemo
+          pip install planemo
           planemo run af528de055395eae smart_heating.yml --galaxy_url https://usegalaxy.eu/ --galaxy_user_key ${{ env.GALAXY_API_KEY }} --history_name "smart heating test" --tags "smart heating test" --no_wait
