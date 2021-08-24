@@ -49,3 +49,9 @@ jobs:
           pip install bioblend click
           python get_dataset_from_history.py --galaxy-server https://usegalaxy.eu/ --galaxy-user-key ${{ secrets.GALAXY_API_KEY }} --tags "smart_heating,$GALAXY_TAG" --dataset-name "Filter Tabular on data 5"
           python plotting_temperature.py --in-file Filter_Tabular_on_data_5 --out-file plotting_temperature.html
+      - name: Commit changes to branch
+        run: |
+          git config --global user.name 'Anne Fouilloux'
+          git config --global user.email 'annefou@users.noreply.github.com'
+          git commit -am "Automated plotting $GALAXY_TAG"
+          git push
