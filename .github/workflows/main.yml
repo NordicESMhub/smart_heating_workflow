@@ -43,7 +43,7 @@ jobs:
         run: |
           pip install planemo
           GALAXY_TAG=$(cat numerical-hirlam74-forecast-Temperature.txt)
-          planemo run af528de055395eae smart_heating.yml --galaxy_url https://usegalaxy.eu/ --galaxy_user_key ${{ secrets.GALAXY_API_KEY }} --history_name "smart heating" --tags "smart_heating,$GALAXY_TAG" --no_wait
+          planemo run af528de055395eae smart_heating.yml --galaxy_url https://usegalaxy.eu/ --galaxy_user_key ${{ secrets.GALAXY_API_KEY }} --history_name "smart heating" --tags "smart_heating,$GALAXY_TAG"
       - name: Fetch and plot results from Galaxy history
         run: |
           pip install bioblend click
