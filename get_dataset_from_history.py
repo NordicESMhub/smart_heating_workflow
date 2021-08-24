@@ -25,7 +25,7 @@ def main(galaxy_server, galaxy_user_key, tags, dataset_name):
             if ds['name'] == dataset_name:
                 # download dataset
                 print(ds['dataset_id'], ds['name'])
-                datasets = gi.datasets.download_dataset(ds['dataset_id'],
+                datasets = gi.datasets.download_dataset(ds['id'],
                                                     file_path='./'+ ds['name'].replace(' ', '_'),
                                                     use_default_filename=False,
                                                     maxwait=0)
