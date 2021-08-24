@@ -1,0 +1,3 @@
+numerical-hirlam74-forecast-Temperature.nc:
+  class: File
+  path: numerical-hirlam74-forecast-Temperature.netcdf

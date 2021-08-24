@@ -32,10 +32,26 @@ jobs:
           use-only-tar-bz2: true
       - name: Install packages
         run: |
-          conda install cdo s3fs
+          conda install cdo s3fs pip pandas bokeh
           conda list
       # Runs a set of commands using the runners shell
       - name: Fetch Hirlam FMI grib data, select area and convert to netCDF
         run: |
           python get_hirlam_FMI.py
           cdo -f nc -t ecmwf copy -sellonlatbox,10,11,59,60 numerical-hirlam74-forecast-Temperature.grb2 numerical-hirlam74-forecast-Temperature.netcdf
+      - name: Start Galaxy workflow with planemo
+        run: |
+          pip install planemo
+          GALAXY_TAG=$(cat numerical-hirlam74-forecast-Temperature.txt)
+          planemo run af528de055395eae smart_heating.yml --galaxy_url https://usegalaxy.eu/ --galaxy_user_key ${{ secrets.GALAXY_API_KEY }} --history_name "smart heating" --tags "smart_heating,$GALAXY_TAG"
+      - name: Fetch and plot results from Galaxy history
+        run: |
+          pip install bioblend click
+          python get_dataset_from_history.py --galaxy-server https://usegalaxy.eu/ --galaxy-user-key ${{ secrets.GALAXY_API_KEY }} --tags "smart_heating,$GALAXY_TAG" --dataset-name "Filter Tabular on data 5"
+          python plotting_temperature.py --in-file Filter_Tabular_on_data_5 --out-file plotting_temperature.html
+      - name: Commit changes to branch
+        run: |
+          git config --global user.name 'Anne Fouilloux'
+          git config --global user.email 'annefou@users.noreply.github.com'
+          git commit -am "Automated plotting $GALAXY_TAG"
+          git push

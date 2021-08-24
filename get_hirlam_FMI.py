@@ -39,6 +39,10 @@ def main():
     latest_file = get_lastfile(fs, output_prefix)
     if latest_file != "":
         fs.download('s3://' + latest_file, output_prefix + '.grb2')
+    tag = "/".join(latest_file.split('/')[1:-1])
+    f = open("numerical-hirlam74-forecast-Temperature.txt", "w")
+    f.write(tag)
+    f.close()
 
 if __name__ == "__main__":
     main()
